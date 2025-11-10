@@ -1,0 +1,115 @@
+local a =
+    setmetatable(
+    {},
+    {
+	__index = function(self, b)
+		return game:GetService(b)
+	end
+})
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Players = nil
+local player = nil
+local Workspace = nil
+local x = 0
+local y = 0
+local z = 0
+
+local function init()
+	Players = a.Players
+	player = Players.LocalPlayer
+    Workspace = a.Workspace
+end
+
+local function TeleportToPosition(x, y, z)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(x, y, z)
+    end
+end
+
+local Window = Rayfield:CreateWindow({
+	Name = "G-Hub",
+	LoadingTitle = "G-Hub V0.1",
+	LoadingSubtitle = "by Glory",
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = "G-Hub",
+		FileName = "G-Hub"
+	},
+	Discord = {
+		Enabled = true,
+		Invite = "https://discord.gg/k5M6bktKhq",
+		RememberJoins = true
+	},
+	KeySystem = false,
+	KeySettings = {
+		Title = "Untitled",
+		Subtitle = "Key System",
+		Note = "No method of obtaining the key is provided",
+		FileName = "Key",
+		SaveKey = true,
+		GrabKeyFromSite = false,
+		Key = {"Hello"}
+	}
+})
+
+local AutoFarmTab = Window:CreateTab("Auto-Farm", nil)
+local MainSection = AutoFarmTab:CreateSection("Auto-Farm")
+
+local DupeButton = AutoFarmTab:CreateButton({
+	Name = "Dupe cosmetic and Disconnect",
+	Callback = function()
+	end,
+})
+
+local DupeButton1 = AutoFarmTab:CreateButton({
+	Name = "Dupe item and Disconnect",
+	Callback = function()
+	end,
+})
+
+local SetShop = AutoFarmTab:CreateButton({
+	Name = "Set Shop",
+	Callback = function()
+	end,
+})
+
+local TeleportTab = Window:CreateTab("Teleport", nil)
+local TeleportSection = TeleportTab:CreateSection("Teleport")
+
+local XInput = TeleportTab:CreateInput({
+	Name = "X Position",
+	PlaceholderText = "Enter X coordinate",
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		x = tonumber(Text) or 0
+	end,
+})
+
+local YInput = TeleportTab:CreateInput({
+	Name = "Y Position", 
+	PlaceholderText = "Enter Y coordinate",
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		y = tonumber(Text) or 0
+	end,
+})
+
+local ZInput = TeleportTab:CreateInput({
+	Name = "Z Position",
+	PlaceholderText = "Enter Z coordinate", 
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		z = tonumber(Text) or 0
+	end,
+})
+
+local TeleportToPositionButton = TeleportTab:CreateButton({
+    Name = "Teleport to Position",
+    Callback = function()
+        TeleportToPosition(x, y, z)
+    end,
+})
+
+init()
