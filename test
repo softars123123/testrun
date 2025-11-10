@@ -13,21 +13,7 @@ local Players = nil
 local ReplicatedStorage = nil
 local Profiles = nil
 local _player = nil
-local Inventory = nil
-local Cosmetics = nil
-local Shared = nil
-local Shop = nil
-local Items = nil
-local SharedInventory = nil
-local CrashSelf = nil
-local sellerUsername = nil
-local shopLocations = nil
-local claim = nil
-local sellerUsername1 = nil
-local sellerUsername2 = nil
-local sellerUsername3 = nil
-local localShop = nil
-local localItems = nil
+
 
 local function init()
 	Players = a.Players
@@ -35,155 +21,21 @@ local function init()
 	Profiles = ReplicatedStorage.Profiles
 	_player = Players.LocalPlayer
     Workspace = a.Workspace
-	Inventory = Profiles:FindFirstChild(_player.Name):WaitForChild("Inventory", 120)
-	Cosmetics = Inventory:WaitForChild("Cosmetics", 120)
-	Items = Inventory:WaitForChild("Items", 120)
-	Shared = ReplicatedStorage:WaitForChild("Shared", 120)
-	Shop = Shared:WaitForChild("Shop", 120)
-	SharedInventory = Shared:WaitForChild("Inventory", 120)
-    localShop = Profiles:FindFirstChild(_player.Name):WaitForChild("SellShop", 120)
-    localItems = localShop.Items 
-    shopLocations = Workspace:WaitForChild("ShopLocations",120)
-    claim = ReplicatedStorage.Shared.Shop.ClaimShop
-	CrashSelf = SharedInventory.AdminSpawnItem
 end
-local function claimAllShops()
-    for _, child in pairs(shopLocations:GetDescendants()) do
-    if child:IsA("Model") then
-    local args = {
-    [1] = child
-    }
-    claim:FireServer(unpack(args))
-    end
-    end
-    end
-local function DupeItem(waitTime)
-	wait(waitTime)
-	for _, v in pairs(Cosmetics:GetChildren()) do
-		local Cosmetic = Cosmetics:FindFirstChild(v.Name)
-		if Cosmetic then
-			local Array = {
-				Cosmetic,
-				100
-			}
-			Shop.AddToStore:FireServer(unpack(Array))
-		end
-	end
-end
-local function DupeItems(waitTime)
-	wait(waitTime)
-	for _, v in pairs(Items:GetChildren()) do
-		local Item = Items:FindFirstChild(v.Name)
-		if Item then
-			local Array = {
-				Item,
-				100
-			}
-			Shop.AddToStore:FireServer(unpack(Array))
-		end
-	end
-end
-
-local function BuyItem()
-	local Seller = Players:FindFirstChild(sellerUsername)
-	local itemsToBuy = {}
-	local SellerShop = Profiles[sellerUsername].SellShop.Items
-	while true do
-		for _, Item in pairs(SellerShop:GetChildren()) do
-			if not table.find(itemsToBuy, Item) then
-				table.insert(itemsToBuy, Item)
-				wait(0.01) -- Wait <waitTime> seconds before buying
-				local Args = {
-					[1] = Seller,
-					[2] = Item
-				}
-				Shop.Buy:InvokeServer(unpack(Args))
-			end
-		end
-		wait() -- Wait for the next iteration
-	end
-end
-local function BuyItem1()
-	local Seller = Players:FindFirstChild(sellerUsername1)
-	local itemsToBuy = {}
-	local SellerShop = Profiles[sellerUsername1].SellShop.Items
-	while true do
-		for _, Item in pairs(SellerShop:GetChildren()) do
-			if not table.find(itemsToBuy, Item) then
-				table.insert(itemsToBuy, Item)
-				wait(0.01) -- Wait <waitTime> seconds before buying
-				local Args = {
-					[1] = Seller,
-					[2] = Item
-				}
-				Shop.Buy:InvokeServer(unpack(Args))
-			end
-		end
-		wait() -- Wait for the next iteration
-	end
-end
-local function BuyItem2()
-	local Seller = Players:FindFirstChild(sellerUsername2)
-	local itemsToBuy = {}
-	local SellerShop = Profiles[sellerUsername2].SellShop.Items
-	while true do
-		for _, Item in pairs(SellerShop:GetChildren()) do
-			if not table.find(itemsToBuy, Item) then
-				table.insert(itemsToBuy, Item)
-				wait(0.01) -- Wait <waitTime> seconds before buying
-				local Args = {
-					[1] = Seller,
-					[2] = Item
-				}
-				Shop.Buy:InvokeServer(unpack(Args))
-			end
-		end
-		wait() -- Wait for the next iteration
-	end
-end
-local function BuyItem3()
-	local Seller = Players:FindFirstChild(sellerUsername3)
-	local itemsToBuy = {}
-	local SellerShop = Profiles[sellerUsername3].SellShop.Items
-	while true do
-		for _, Item in pairs(SellerShop:GetChildren()) do
-			if not table.find(itemsToBuy, Item) then
-				table.insert(itemsToBuy, Item)
-				wait(0.01) -- Wait <waitTime> seconds before buying
-				local Args = {
-					[1] = Seller,
-					[2] = Item
-				}
-				Shop.Buy:InvokeServer(unpack(Args))
-			end
-		end
-		wait() -- Wait for the next iteration
-	end
-end
-local function removeAllItemsFromStore()
-    local args = {}
-    for _, item in pairs(localItems:GetChildren()) do
-    args[#args + 1] = item
-    end
-    for _, item in pairs(args) do
-    Shop.RemoveFromStore:FireServer(item)
-    wait(0.01)
-    end
-    end
 
 
 local Window = Rayfield:CreateWindow({
-	Name = "Bendsai",
-	LoadingTitle = "Bendsai 0.01",
-	LoadingSubtitle = "by 3m kensai",
+	Name = "G-Hub",
+	LoadingTitle = "G-Hub V0.1",
+	LoadingSubtitle = "by Glory",
 	ConfigurationSaving = {
 		Enabled = false,
-		FolderName = "sup Bro", -- Create a custom folder for your hub/game
-		FileName = "Big Hub"
+		FolderName = "G-Hub", -- Create a custom folder for your hub/game
+		FileName = "G-Hub"
 	},
 	Discord = {
-		Enabled = false,
-		Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+		Enabled = true,
+		Invite = "https://discord.gg/k5M6bktKhq", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
 		RememberJoins = true -- Set this to false to make them join the discord every time they load it up
 	},
 	KeySystem = false, -- Set this to true to use our key system
@@ -200,18 +52,10 @@ local Window = Rayfield:CreateWindow({
 	}
 })
 
-local MainTab = Window:CreateTab("Duper", nil) -- Title, Image
-local MainSection = MainTab:CreateSection("Duper")
-local DupeTime = 0.5
-local MainInput = MainTab:CreateInput({
-	Name = "Wait Time",
-	PlaceholderText = "0.5",
-	RemoveTextAfterFocusLost = false,
-	Callback = function(Text)
-		DupeTime = tonumber(Text)
-	end,
-})
-local DupeButton = MainTab:CreateButton({
+local AutoFarmTab = Window:CreateTab("Auto-Farm", nil) -- Title, Image
+local MainSection = AutoFarmTab:CreateSection("Auto-Farm")
+
+local DupeButton = AutoFarmTab:CreateButton({
 	Name = "Dupe cosmetic and Disconnect",
 	Callback = function()
 		CrashSelf:FireServer()
@@ -219,7 +63,7 @@ local DupeButton = MainTab:CreateButton({
 	end,
 })
 
-local DupeButton1 = MainTab:CreateButton({
+local DupeButton1 = AutoFarmTab:CreateButton({
 	Name = "Dupe item and Disconnect",
 	Callback = function()
 		CrashSelf:FireServer()
@@ -227,7 +71,7 @@ local DupeButton1 = MainTab:CreateButton({
 	end,
 })
 
-local SetShop = MainTab:CreateButton({
+local SetShop = AutoFarmTab:CreateButton({
 	Name = "Set Shop",
 	Callback = function()
         removeAllItemsFromStore()
@@ -323,64 +167,6 @@ local GoldDupeButton = GoldDupeTab:CreateButton({
 		BuyItem()
 	end,
 })
-local BindsTab = Window:CreateTab("Binds", nil) -- Title, Image
-local BindsSection = BindsTab:CreateSection("Binds")
-local Keybind = BindsTab:CreateKeybind({
-	Name = "claim shop",
-	CurrentKeybind = "Y",
-	HoldToInteract = false,
-	Callback = function(Keybind)
-        removeAllItemsFromStore()
-        claimAllShops()
-	end,
-})
-local Keybind = BindsTab:CreateKeybind({
-	Name = "Dupe Cosmetics",
-	CurrentKeybind = "X",
-	HoldToInteract = false,
-	Callback = function(Keybind)
-        CrashSelf:FireServer()
-        DupeItem(DupeTime)
-	end,
-})
-local Keybind = BindsTab:CreateKeybind({
-	Name = "Dupe Items",
-	CurrentKeybind = "J",
-	HoldToInteract = false,
-	Callback = function(Keybind)
-        CrashSelf:FireServer()
-        DupeItems(DupeTime)
-	end,
-})
-local Keybind = BindsTab:CreateKeybind({
-	Name = "Increase wait by 0.01",
-	CurrentKeybind = "F",
-	HoldToInteract = false,
-	Callback = function(Keybind)
-        DupeTime = DupeTime + 0.01
-        Rayfield:Notify({
-			Title = "Adjust Dupe Time",
-			Content = tostring(DupeTime),
-			Duration = 1,
-			Image = nil,
-			Actions = nil,
-		})
-	end,
-})
-local Keybind = BindsTab:CreateKeybind({
-	Name = "Decrease wait by 0.01",
-	CurrentKeybind = "G",
-	HoldToInteract = false,
-	Callback = function(Keybind)
-        DupeTime = DupeTime - 0.01
-        Rayfield:Notify({
-			Title = "Adjust Dupe Time",
-			Content = tostring(DupeTime),
-			Duration = 1,
-			Image = nil,
-			Actions = nil,
-		})
-	end,
-})
+
 
 init()
