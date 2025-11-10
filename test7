@@ -1,0 +1,176 @@
+local a =
+    setmetatable(
+    {},
+    {
+	__index = function(self, b)
+		return game:GetService(b)
+	end
+})
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Players = nil
+local player = nil
+local Workspace = nil
+local x = 0
+local y = 0
+local z = 0
+local islands = {
+    {name = "Windmill", coords = CFrame.new(-277.27, 20.55, 471.69)},
+    {name = "Emerald Town", coords = CFrame.new(-2083.18, 54.50, 1968.69)},
+    {name = "Sand Town", coords = CFrame.new(1181.43, 24.55, 2818.59)},
+    {name = "Autman Island", coords = CFrame.new(-1981.79, 18.75, -4125.25)},
+    {name = "Sky Sanctuary", coords = CFrame.new(-2747.15, 3237.55, -567.84)},
+    {name = "Wild Savannah", coords = CFrame.new(-5764.85, 19.05, 5048.55)},
+    {name = "Soggy Swamp", coords = CFrame.new(4832.36, 37.45, -730.19)},
+    {name = "Marine Base", coords = CFrame.new(-6302.85, 11.55, -4121.51)},
+    {name = "Glacier Square", coords = CFrame.new(-5919.62, 43.55, 177.82)},
+    {name = "Cloud Freighter", coords = CFrame.new(2753.04, 3240.12, -5924.56)},
+    {name = "Kraken", coords = CFrame.new(1968.95, 65.50, -1088.39)},
+    {name = "Kraken 2", coords = CFrame.new(-8499.34, 46.39, -2131.29)},
+    {name = "Kraken 3", coords = CFrame.new(218.69, 1.59, -5963.01)}
+}
+
+-- Set default selected island
+local selectedIsland = islands[1].name
+
+local function init()
+	Players = a.Players
+	player = Players.LocalPlayer
+    Workspace = a.Workspace
+end
+
+local function TeleportToPosition(x, y, z)
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(x, y, z)
+    end
+end
+
+local function TeleportToIsland()
+    for _, island in pairs(islands) do
+        if island.name == selectedIsland then
+            local character = player.Character
+            if character and character:FindFirstChild("HumanoidRootPart") then
+                character.HumanoidRootPart.CFrame = island.coords
+                print("Teleported to: " .. island.name)
+            end
+            break
+        end
+    end
+end
+
+local Window = Rayfield:CreateWindow({
+	Name = "G-Hub",
+	LoadingTitle = "G-Hub V0.1",
+	LoadingSubtitle = "by Glory",
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = "G-Hub",
+		FileName = "G-Hub"
+	},
+	Discord = {
+		Enabled = true,
+		Invite = "https://discord.gg/k5M6bktKhq",
+		RememberJoins = true
+	},
+	KeySystem = false,
+	KeySettings = {
+		Title = "Untitled",
+		Subtitle = "Key System",
+		Note = "No method of obtaining the key is provided",
+		FileName = "Key",
+		SaveKey = true,
+		GrabKeyFromSite = false,
+		Key = {"Hello"}
+	}
+})
+
+local AutoFarmTab = Window:CreateTab("Auto-Farm", nil)
+local MainSection = AutoFarmTab:CreateSection("Auto-Farm")
+
+local DupeButton = AutoFarmTab:CreateButton({
+	Name = "Dupe cosmetic and Disconnect",
+	Callback = function()
+	end,
+})
+
+local DupeButton1 = AutoFarmTab:CreateButton({
+	Name = "Dupe item and Disconnect",
+	Callback = function()
+	end,
+})
+
+local SetShop = AutoFarmTab:CreateButton({
+	Name = "Set Shop",
+	Callback = function()
+	end,
+})
+
+local TeleportTab = Window:CreateTab("Teleport", nil)
+local TeleportSection = TeleportTab:CreateSection("Teleport to Position")
+
+local XInput = TeleportTab:CreateInput({
+	Name = "X Position",
+	PlaceholderText = "Enter X coordinate",
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		x = tonumber(Text) or 0
+	end,
+})
+
+local YInput = TeleportTab:CreateInput({
+	Name = "Y Position", 
+	PlaceholderText = "Enter Y coordinate",
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		y = tonumber(Text) or 0
+	end,
+})
+
+local ZInput = TeleportTab:CreateInput({
+	Name = "Z Position",
+	PlaceholderText = "Enter Z coordinate", 
+	RemoveTextAfterFocusLost = false,
+	Callback = function(Text)
+		z = tonumber(Text) or 0
+	end,
+})
+
+local TeleportToPositionButton = TeleportTab:CreateButton({
+    Name = "Teleport to Position",
+    Callback = function()
+        TeleportToPosition(x, y, z)
+    end,
+})
+
+local TeleportSection2 = TeleportTab:CreateSection("Teleport to Island")
+
+-- Get island names for dropdown
+local islandNames = {}
+for _, island in pairs(islands) do
+    table.insert(islandNames, island.name)
+end
+
+-- Create dropdown for island selection
+local IslandDropdown = TeleportTab:CreateDropdown({
+	Name = "Select Island",
+	Options = islandNames,
+	CurrentOption = selectedIsland,
+	MultipleOptions = false,
+	Flag = "IslandDropdown",
+	Callback = function(Option)
+		selectedIsland = Option
+		print("Selected island: " .. selectedIsland)
+	end,
+})
+
+-- Create teleport button for islands
+local TeleportToIslandButton = TeleportTab:CreateButton({
+    Name = "Teleport to Selected Island",
+    Callback = function()
+        print("Attempting to teleport to: " .. tostring(selectedIsland))
+        TeleportToIsland()
+    end,
+})
+
+init()
